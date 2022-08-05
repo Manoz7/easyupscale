@@ -10,8 +10,14 @@ from homeapp.models import Contact, MeetRequest
 # Create your views here.
 
 
-class Home(TemplateView):
+class Home(CreateView):
+    model = Contact
+    fields = ["fullname", "email", "phone", "message"]
     template_name = 'homeapp/index.html'
+
+    def get_success_url(self):
+        messages.success(self.request, 'Message received. Will get back to you soon!')
+        return self.request.META['HTTP_REFERER']
 
 
 class Contact(CreateView):
@@ -20,7 +26,7 @@ class Contact(CreateView):
     template_name = 'homeapp/contact.html'
 
     def get_success_url(self):
-        messages.success(self.request, 'Form Submitted Successfully!')
+        messages.success(self.request, 'Message received. Will get back to you soon!')
         return self.request.META['HTTP_REFERER']
 
 
@@ -83,3 +89,14 @@ class MeetingRequest(CreateView):
     def get_success_url(self):
         messages.success(self.request, "Success! We'll get back to you right away.")
         return self.request.META['HTTP_REFERER']
+
+class Pricing(TemplateView):
+    template_name = 'homeapp/pricing.html'
+    
+    
+# Other blogs until dynamic blogs 
+class BlogDetail2(TemplateView):
+    template_name = 'homeapp/blog-details2.html'
+
+class BlogDetail3(TemplateView):
+    template_name = 'homeapp/blog-details3.html'
